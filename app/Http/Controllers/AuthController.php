@@ -10,10 +10,10 @@ use Validator;
 
 class AuthController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth.role:admin', ['except' => ['login']]);
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth.role:admin', ['except' => ['login']]);
+    // }
 
     /**
      * Get a JWT via given credentials.
