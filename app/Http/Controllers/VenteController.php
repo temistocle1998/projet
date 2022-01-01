@@ -3,17 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
-use App\Models\BonApprovisionnements;
+use App\Models\operationApprovisionnements;
+use App\Models\Operation;
 use Illuminate\Http\Request;
-use Validator;
 
-class EntreeController extends Controller
+class VenteController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('auth.role:admin');
-    // }
-    
     /**
      * Display a listing of the resource.
      *
@@ -21,8 +16,7 @@ class EntreeController extends Controller
      */
     public function index()
     {
-        $entrees = BonApprovisionnements::with('articles')->get();
-        return response()->json($entrees, 200);
+        //
     }
 
     /**
@@ -34,34 +28,41 @@ class EntreeController extends Controller
     public function store(Request $request)
     {
         $validator = $request->validate([
-            'article_id' => 'required|string',
+            'livreur_id' => 'integer' ?? null,
+            'adresse_livraison' => 'string' ?? null,
+            'date_livraison' => 'date' ?? null,
+            'etat_livraison' => 'string' ?? null,
+            'type' => 'required|string',
+            'client_id' => 'integer'  ?? null,
+            'construction_id' => 'integer'  ?? null,
+        ]);
+
+        $validator_op = $request->validate([
+            'article_id' => 'required|integer',
             'quantite' => 'required|integer',
-            'bon_id' => 'required|integer',
-            'fournisseur_id' => 'required|integer',
-            'date' => 'required|date',
         ]);
         
-        $bon = new BonApprovisionnements();
-        $bon->date = $validator['date'];
-        $bon->fournisseur_id = $validator['fournisseur_id'];
+        $article_update = Article::find($validator_op['article_id']);
 
-        $bon->save();
+        if ($article_update->quantite < $validator_op['quantite']) {
+            $error = "la quantite est insuffisante";
+            return response()->json(["status"=>"false", "message"=>$error, "data"=>[]], 422);
+        }
+        $data = Operation::create($validator);
+    
         $article = new Article();
-        $article->quantite = $validator['quantite'];
-        $article->id = $validator['article_id'];
+        $article->quantite = $validator_op['quantite'];
+        $article->id = $validator_op['article_id'];
 
-        $bon->articles()->attach($article, ['quantite'=> $article->quantite ]);
-
-        $article_update = Article::find($article);
+        $data->articles()->attach($article, ['quantite'=> $article->quantite]);
 
         $attribute = $article_update->where('id', $article->id)->first();
 
-        $attribute->quantite = $attribute->quantite + $article->quantite;
+        $attribute->quantite = $attribute->quantite - $article->quantite;
         
         $attribute->save();
-   
-        return response()->json($bon, 201);
-
+       return response()->json($data, 200);
+        
     }
 
     /**

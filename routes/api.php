@@ -9,6 +9,8 @@ use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\FournisseurController;
 use App\Http\Controllers\ProjetController;
 use App\Http\Controllers\EntreeController;
+use App\Http\Controllers\VenteController;
+
 
 use App\Http\Middleware\CORS;
 
@@ -49,10 +51,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     Route::resource('/reglements', ReglementController::class);
 // });
 // Route::resource('articles', [ArticleControlle::class, 'middleware' => 'auth.role:admin,caissier']);
+Route::post('/auth/login', [AuthController::class, 'login']);
 
-// Route::group(['middleware' => 'auth.role', 'prefix' => 'auth'], function($router) {
+  Route::group(['prefix' => 'auth'], function($router) {
     Route::resource('/articles', ArticleController::class);
-    Route::post('/auth/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
@@ -63,10 +65,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     /** Articles */
     //Route::resource('/articles', ArticleController::class);
     Route::get('/nbArticles', [ArticleController::class, 'nbArticleEnStock']);
+    Route::post('/update-article/{article}', [ArticleController::class, 'updateArticle']);
+    
+    Route::get('/nbArticleBycategorie/{categories}', [CategorieController::class, 'nbArticleBycategorie']);
     /** FOURNISSEUR */
     Route::resource('/fournisseurs', FournisseurController::class);
     /** Categories */
     Route::resource('/categories', CategorieController::class);
     Route::resource('/projets', ProjetController::class);
     Route::resource('/entrees', EntreeController::class);
-//   });
+    Route::resource('/ventes', VenteController::class);
+   });

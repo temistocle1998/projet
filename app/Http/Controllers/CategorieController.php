@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Article;
 use Illuminate\Http\Request;
 use App\Models\Categorie;
 use Validator;
@@ -88,5 +89,12 @@ class CategorieController extends Controller
         $categorie->delete();
 
         return response()->json($categorie, 200);
+    }
+
+    public function nbArticleByCategorie($id)
+    {
+        $nb_article = Categorie::withCount('articles')->where('id', $id)->get();
+
+        return response()->json($nb_article, 200);
     }
 }

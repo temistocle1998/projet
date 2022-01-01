@@ -28,7 +28,7 @@ class Article extends Model
      */
     public function operation()
     {
-        return $this->belongsToMany(Operation::class);
+        return $this->belongsToMany(Operation::class,'operations_articles', 'operation_id', 'article_id')->withPivot('quantite');
     }
 
     public function bons()

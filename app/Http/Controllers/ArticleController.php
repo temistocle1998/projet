@@ -4,14 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Article;
-
+use Validator;
 
 class ArticleController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('auth.role:admin');
-    // }
+    public function __construct()
+    {
+        $this->middleware('auth.role:admin');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -59,22 +59,33 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function updateArticle(Request $request, $id)
     {
-        // $article->categorie_id = $request->title;
-        // $article->intitule = $request->intitule;
-        // $article->prix = $request->prix;
-        // $article->quantite = $request->quantite;
-        // $article->photo = $request->photo;
-        // $article->save();
-        // $article->categories()->sync($request->categorie_id);
-        // $this->storeImage($article);
+        try {
+            $validator = Validator::make($request->all(), [
+                    'intitule' => 'required|string|between:3,100',
+                    'prix' => 'required|integer',
+                    'quantite' => 'required|integer',
+                    'photo' => 'image:jpeg,png,jpg|max:2048',
+                    'categorie_id' => 'required|integer'
+            ]);
+            if ($validator->fails()) {
+                $error = $validator->errors()->all()[0];
+                return response()->json(["status"=>"false", "message"=>$error, "data"=>[]], 422);
+            }
+            else {
+                $article = Article::find($id);
+                $article->update($request->all());
+                $this->storeImage($article);
+            }
 
-        $article = Article::find($id);
-        $article->update($request->all());
-
-        return $article;
+    
+            return $article;
+    
+        } catch (\Exception $e) {
+            return response()->json(["status"=>"false", "message"=>$e->getMessage(), "data"=>[]], 500);
         }
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -97,19 +108,8 @@ class ArticleController extends Controller
                 'intitule' => 'required|string|between:3,100',
                 'prix' => 'required|integer',
                 'quantite' => 'required|integer',
-                'photo' => 'required|image:jpeg,png,jpg|max:2048',
+                'photo' => 'nullable|image:jpeg,png,jpg|max:2048',
                 'categorie_id' => 'required|integer'
-            ]);
-    }
-
-    public function forUpdate()
-    {
-        return request()->validate([
-                'intitule' => 'string|between:3,100',
-                'prix' => 'integer',
-                'quantite' => 'integer',
-                'photo' => 'image:jpeg,png,jpg|max:2048',
-                'categorie_id' => 'integer'
             ]);
     }
 
