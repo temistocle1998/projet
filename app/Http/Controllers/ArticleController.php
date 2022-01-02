@@ -133,7 +133,9 @@ class ArticleController extends Controller
 
     public function valeurTotalStock()
     {
-       $total = DB::table('articles')->sum(DB::raw('articles.quantite * articles.prix'));
+        $total = DB::table('articles')->sum(DB::raw('articles.quantite * articles.prix'));
+       //select sum(articles.quantite * articles.prix) as aggregate from `articles`      []      4.43ms
+       //$total = DB::table('articles')->sum('articles.quantite' * 'articles.prix');
 
        return response()->json($total, 200);
     }

@@ -17,7 +17,7 @@ class CreateArticlesTable extends Migration
             $table->bigIncrements('id');
             $table->integer('prix');
             $table->string('photo');
-            $table->string('quantite');
+            $table->integer('quantite');
             $table->foreignId('categorie_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
