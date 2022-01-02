@@ -4,14 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Article;
+use Illuminate\Support\Facades\DB;
 use Validator;
 
 class ArticleController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth.role:admin');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth.role:admin');
+    // }
     /**
      * Display a listing of the resource.
      *
@@ -128,5 +129,12 @@ class ArticleController extends Controller
         $data = Article::all()->count();
 
         return response()->json($data, 200);
+    }
+
+    public function valeurTotalStock()
+    {
+       $total = DB::table('articles')->sum(DB::raw('articles.quantite * articles.prix'));
+
+       return response()->json($total, 200);
     }
 }

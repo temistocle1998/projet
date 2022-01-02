@@ -67,6 +67,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     Route::get('/nbArticles', [ArticleController::class, 'nbArticleEnStock']);
     Route::post('/update-article/{article}', [ArticleController::class, 'updateArticle']);
     
+    Route::get('/valeurTotalStock', [ArticleController::class, 'valeurTotalStock']);
+
     Route::get('/nbArticleBycategorie/{categories}', [CategorieController::class, 'nbArticleBycategorie']);
     Route::get('/getNombreCategorie', [CategorieController::class, 'getNombreCategorie']);
     
