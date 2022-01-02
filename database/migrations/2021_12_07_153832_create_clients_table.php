@@ -14,7 +14,7 @@ class CreateClientsTable extends Migration
     public function up()
     {
         Schema::create('clients', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigInteger('id');
             $table->foreignId('user_id')->references('id')->on('users');
             $table->primary('user_id');
             $table->string('pays_residence');
