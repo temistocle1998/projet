@@ -51,15 +51,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     Route::resource('/reglements', ReglementController::class);
 // });
 // Route::resource('articles', [ArticleControlle::class, 'middleware' => 'auth.role:admin,caissier']);
-Route::post('/auth/login', [AuthController::class, 'login']);
 
   Route::group(['prefix' => 'auth'], function($router) {
     Route::resource('/articles', ArticleController::class);
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
-    Route::get('/auth/user-profile', [AuthController::class, 'userProfile']);
-    
+    Route::get('/user-profile', [AuthController::class, 'userProfile']);
+    Route::post('/login', [AuthController::class, 'login']);
+
     /** CLients */
     Route::resource('/client', ClientController::class);
     /** Articles */
