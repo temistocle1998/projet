@@ -35,7 +35,7 @@ class ClientSeeder extends Seeder
             $data_client->pays_residence = $user['pays_residence'];
 
             $data_client->solde = $user['solde'];
-            $data_client->user_id = $data->id;
+            //$data_client->user_id = $data->id;
 
 
             $data->save();
