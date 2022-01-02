@@ -17,7 +17,7 @@ class CreateProjetConstructions extends Migration
             $table->id();
             $table->string('etat');
             $table->string('adresse');
-            $table->foreignId('client_id')->references('user_id')->on('clients')->unique();
+            $table->foreignId('clients_id')->references('user_id')->on('clients')->unique();
             $table->date('date_demarrage');
 
             $table->timestamps();
