@@ -18,7 +18,7 @@ class CreateVersementsTable extends Migration
             $table->integer('montant');
             $table->date('date');
             $table->foreignId('mode_paiement_id')->references('id')->on('mode_paiements');
-            $table->foreignId('client_id')->references('user_id')->on('clients');
+            $table->foreignId('client_id')->references('id')->on('clients');
             $table->timestamps();
         });
     }
