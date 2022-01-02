@@ -68,6 +68,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     Route::post('/update-article/{article}', [ArticleController::class, 'updateArticle']);
     
     Route::get('/nbArticleBycategorie/{categories}', [CategorieController::class, 'nbArticleBycategorie']);
+    Route::get('/getNombreCategorie', [CategorieController::class, 'getNombreCategorie']);
+    
     /** FOURNISSEUR */
     Route::resource('/fournisseurs', FournisseurController::class);
     /** Categories */

@@ -97,4 +97,10 @@ class CategorieController extends Controller
 
         return response()->json($nb_article, 200);
     }
+
+    public function getNombreCategorie()
+    {
+        $categorie = Categorie::count(); 
+        return response()->json($categorie, 200);
+    }
 }
