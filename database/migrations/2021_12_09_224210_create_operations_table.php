@@ -19,7 +19,7 @@ class CreateOperationsTable extends Migration
             $table->date('date_livraison');
             $table->string('etat_livraison');
             $table->string('adresse_livraison');
-            $table->foreignId('client_id')->references('id')->on('clients');
+            $table->foreignId('client_id')->references('user_id')->on('clients');
             $table->foreignId('livreur_id')->references('id')->on('livreurs');
             $table->foreignId('construction_id')->references('id')->on('projet_constructions');
             $table->timestamps();
