@@ -17,7 +17,7 @@ class CreateClientsTable extends Migration
             $table->increments('id');
             $table->foreignId('user_id')->references('id')->on('users');
             $table->dropPrimary("id");
-            //$table->primary('user_id');
+            $table->primary('user_id');
             $table->string('pays_residence');
             $table->integer('solde');
             $table->timestamps();
