@@ -61,7 +61,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     Route::post('/login', [AuthController::class, 'login']);
 
     /** CLients */
-    Route::resource('/client', ClientController::class);
+    Route::resource('/clients', ClientController::class);
     /** Articles */
     //Route::resource('/articles', ArticleController::class);
     Route::get('/nbArticles', [ArticleController::class, 'nbArticleEnStock']);
