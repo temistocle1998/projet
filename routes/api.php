@@ -59,6 +59,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::get('/user-profile', [AuthController::class, 'userProfile']);
     Route::post('/login', [AuthController::class, 'login']);
+    Route::get('/user-list', [AuthController::class, 'getUsers']);
 
     /** CLients */
     Route::resource('/clients', ClientController::class);
@@ -74,6 +75,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     
     /** FOURNISSEUR */
     Route::resource('/fournisseurs', FournisseurController::class);
+    Route::get('/nbFournisseur', [FournisseurController::class, 'nbFournisseur']);
     /** Categories */
     Route::resource('/categories', CategorieController::class);
     Route::resource('/projets', ProjetController::class);

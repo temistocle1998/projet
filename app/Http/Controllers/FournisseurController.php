@@ -90,4 +90,11 @@ class FournisseurController extends Controller
     {
         //
     }
+
+    public function nbFournisseur()
+    {
+        $data = Fournisseur::count();
+
+        return response()->json($data, 200);
+    }
 }

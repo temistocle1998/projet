@@ -21,7 +21,7 @@ class CategorieController extends Controller
      */
     public function index()
     {
-        $data = Categorie::with('articles')->get();
+        $data = Categorie::all();
 
         return response()->json($data, 200);
     }

@@ -100,7 +100,7 @@ class ArticleController extends Controller
 
         $article->delete();
 
-        return response()->json($data, 200,);
+        return response()->json($article, 200,);
     }
 
     public function validator()
